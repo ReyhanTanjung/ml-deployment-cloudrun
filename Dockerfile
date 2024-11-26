@@ -1,18 +1,20 @@
-# Gunakan image Python resmi
-FROM python:3.9-slim
+# Use the official Python image from Docker Hub
+FROM python:3.8-slim
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Salin file aplikasi ke dalam container
-COPY app.py /app
-COPY model.pkl /app
+# Copy the application files into the container
+COPY . /app
 
-# Install dependensi yang dibutuhkan
-RUN pip install --no-cache-dir Flask joblib scikit-learn
+# Install the necessary Python packages
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Tentukan port yang digunakan
+# Expose port 8080 for the application
 EXPOSE 8080
 
-# Jalankan aplikasi Flask
+# Set environment variable to tell Flask to run in production mode
+ENV FLASK_ENV=production
+
+# Run the Flask app
 CMD ["python", "app.py"]
